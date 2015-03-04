@@ -233,6 +233,17 @@
     
 
 
+
+;; this looks like a cleaner way to handle messages from the client
+;; suggested by Zach (creator of gloss and aleph )
+(defn tcp-handler [s conn-info]
+   (d/let-flow [msg (s/take! s)
+                _   (s/put! s (message-handler  msg conn-info))]
+     (set-up-message-handling s)))
+
+
+
+
 (defn d-handler
   [f]
   (fn [s info]
